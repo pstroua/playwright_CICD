@@ -7,8 +7,8 @@ pipeline {
     }
 
     parameters {
-        choice(name: 'tag', choices: ['smoke', 'TNR'], description: 'Choisir un tag')
-
+        booleanParam(name: 'istag', defaultValue: true, description: 'lancer avec tous les tag ?')
+        choice(name: 'tag', choices: ['@smoke', '@TNR'], description: 'Choisir un tag')
      }
     stages {
          stage('Check version nodejs') {
@@ -24,10 +24,10 @@ pipeline {
         stage('Lancer le test') {
             steps {
                 script{
-                    if (params.tag == 'smoke') {
-                        sh 'npx playwright test --grep @smoke'
+                      if(params.istag == true){
+                        sh "npx playwright test --grep=${params.tag}"
                     } else {
-                        sh'npx playwright test --grep @TNR'
+                        sh"npx playwright test"
                     }
                 }
             }
