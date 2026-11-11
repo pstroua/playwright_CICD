@@ -5,6 +5,7 @@ pipeline {
             args '-u root --entrypoint='
         }
     }
+    //triggers{ cron('* * * * *') }: lancer chaque minute
 
     stages {
          stage('Check version nodejs') {
